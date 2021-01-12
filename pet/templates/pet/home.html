@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Diary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" rel="stylesheet" />
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container block">
+            <div class="columns">
+                <div class="column is-three-quarters">
+                    <h1 class="title">{{ name }}</h1>
+                    <p class="subtitle">
+                        {{ age }}
+                    </p>
+                </div>
+                <div class="column is-one-quarter">
+                    <p class="has-text-right">
+                        <span class="icon-medium"><i class="fas fa-toilet"></i></span> {{ time_from_last_pee}}
+                    </p>
+                    <p class="has-text-right">
+                        <span class="icon-medium"><i class="fas fa-poo"></i></span> {{ time_from_last_poo}}
+                    </p>
+                    <p class="has-text-right">
+                        <span class="icon-medium"><i class="fas fa-bed"></i></span> {{ time_from_last_wake}}
+                    </p>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container block">
+            <p class="is-size-4">Next expected event: WIP</p>
+        </div>
+
+        <div class="container block">
+            <form method="POST">{% csrf_token %}
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        Date
+                    </div>
+                    <div class="field-body">
+                        {{ form.date }}
+                    </div>
+                    <div class="field-label is-normal">Time</div>
+                    <div class="field-body">{{ form.time }}</div>
+                    <div class="field-label is-normal">Event</div>
+                    <div class="field-body">{{ form.event }}</div>
+                    <div class="field-label is-normal">Detail</div>
+                    <div class="field-body">{{ form.detail }}</div>
+
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal"></div>
+                    <button class="button is-link" type="submit">Add</button>
+                </div>
+        </div>
+
+
+        </form>
+
+        </div>
+        <div class="container">
+            <thead>
+                <table class="table is-fullwidth">
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Event
+                        </th>
+                        <th>
+                            Detail
+                        </th>
+                    </tr>
+            </thead>
+            {% for event in events %}
+            <tr {% if event.id is new_event %} class="is-selected" {% endif %}>
+                <td>{{ event.date|date:"D" }} {{ event.date }}</td>
+                <td>{{ event.time|date:"G:i:s" }}</td>
+                <td>{{ event.event.title }}</td>
+                <td>{{ event.detail }}</td>
+                <td>
+                    <a href="delete_event/{{ event.id }}">
+                        <input type="submit" class="button is-small" onclick="return confirm('Confirm?')"
+                            value="Delete">
+                        </input>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </table>
+
+            <a href="download_csv">
+                <input type="submit" class="button is-link" value="Download CSV data">
+                </input>
+            </a>
+        </div>
+    </section>
+</body>
+
+</html>
