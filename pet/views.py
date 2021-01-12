@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Pet, Event
 from .forms import EventForm
-from .analytics import import_csv
+
+# from .analytics import import_csv
 import humanize
 import datetime as dt
 import csv
@@ -10,8 +11,8 @@ import csv
 
 def home(request, new_event=None):
 
-    if Event.objects.count() < 5:
-        import_csv("~/projects/data-science/pet_diary_data.csv")
+    # if Event.objects.count() < 5:
+    #     import_csv("~/projects/data-science/pet_diary_data.csv")
 
     pet = Pet.objects.first()
 
